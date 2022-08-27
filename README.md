@@ -1,3 +1,8 @@
-# Blog-nodeJS
+# 
 
-Sistema de login com Node-JS
+Blog com Node-JS
+
+Utilizando Npm
+nodemon
+
+
