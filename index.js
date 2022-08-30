@@ -37,6 +37,11 @@ connection
     console.log(err)
   })
 
+app.post('/saveTester', (req, res) => {
+  console.log(req.body)
+  res.send('cadastrou')
+})
+
 app.listen(port, () => {
   console.log('sistema rodando na porta ' + port)
 })

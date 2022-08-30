@@ -4,6 +4,11 @@
   <body>
     <%- include('./partials/navbar') %>
     <div class="container"></div>
+
+    <form action="/saveTester" method="post">
+      <input type="text" name="texto1" />
+      <button>cadastrar</button>
+    </form>
   </body>
   <%- include('./partials/footer') %>
 </html>
