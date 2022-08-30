@@ -6,6 +6,4 @@ const connection = new sequelize('BLOG', 'root', '123456', {
   dialect: 'mysql'
 })
 
-//connection.sync()
-
 module.exports = connection

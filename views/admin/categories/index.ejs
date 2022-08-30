@@ -7,6 +7,7 @@
       <hr />
       <h2>Categorias</h2>
       <hr />
+
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -17,12 +18,15 @@
           </tr>
         </thead>
         <tbody>
+          <% categories.forEach(category =>{ %>
+
           <tr>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th><%= category.id %></th>
+            <th><%= category.title %></th>
+            <th><%= category.slug %></th>
             <th></th>
           </tr>
+          <% }) %>
         </tbody>
       </table>
     </div>

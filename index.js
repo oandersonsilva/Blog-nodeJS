@@ -7,7 +7,7 @@ const articlesRouters = require('./articles/routers')
 const Article = require('./articles/Article')
 const Category = require('./categories/Category')
 
-const port = 8080
+const port = 3000
 
 app.set('view engine', 'ejs')
 
@@ -38,5 +38,5 @@ connection
   })
 
 app.listen(port, () => {
-  console.log('sistema rodando')
+  console.log('sistema rodando na porta ' + port)
 })
