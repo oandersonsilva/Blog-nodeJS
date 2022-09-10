@@ -2,13 +2,30 @@
 <html lang="pt-br">
   <%- include('./partials/header') %>
   <body>
-    <%- include('./partials/navbar') %>
-    <div class="container"></div>
+    <%- include('./partials/homenavbar') %>
 
-    <form action="/saveTester" method="post">
-      <input type="text" name="texto1" />
-      <button>cadastrar</button>
-    </form>
+    <div class="container">
+      <hr />
+      <div class="jumbotrom">
+        <h1 class="display-4">Bem Vindo</h1>
+        <p class="lead">Bolg do curso Guia do Programador</p>
+        <hr class="my-4" />
+        <a href="" class="btn btn-primary" role="button">Leia Mais</a>
+      </div>
+      <br />
+      <% listArticle.forEach(article =>{ %>
+      <div class="card">
+        <div class="card-header"><h2><%= article.title %></h2></div>
+        <div class="card-body">
+          <a href="/<%= article.slug %>" class="btn btn-success">Ler Artigo</a>
+        </div>
+      </div>
+
+      <% }) %>
+
+      <br />
+    </div>
   </body>
+
   <%- include('./partials/footer') %>
 </html>

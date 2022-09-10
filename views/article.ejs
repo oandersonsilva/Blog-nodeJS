@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <%- include('./partials/header') %>
+  <body>
+    <%- include('./partials/homenavbar') %>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header"><h2><%= article.title %></h2></div>
+        <div class="card-body"><%- article.body %></div>
+        <!-- exibir variavel executando o HTMl -->
+      </div>
+
+      <br />
+    </div>
+  </body>
+
+  <%- include('./partials/footer') %>
+</html>

@@ -11,12 +11,8 @@ const port = 3000
 
 app.set('view engine', 'ejs')
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
-
 app.use('/', categoriesRouters)
-app.use('/articles', articlesRouters)
+app.use('/', articlesRouters)
 
 //Static archives
 
@@ -37,9 +33,34 @@ connection
     console.log(err)
   })
 
+app.get('/', (req, res) => {
+  Article.findAll({ order: ['id'] }).then(list => {
+    res.render('index', { listArticle: list })
+  })
+})
+
 app.post('/saveTester', (req, res) => {
   console.log(req.body)
   res.send('cadastrou')
+})
+
+app.get('/:slug', (req, res) => {
+  var slug = req.params.slug
+  Article.findOne({
+    where: {
+      slug: slug
+    }
+  })
+    .then(article => {
+      if (article != undefined) {
+        res.render('article', { article: article })
+      } else {
+        res.redirect('/')
+      }
+    })
+    .catch(err => {
+      res.redirect('/')
+    })
 })
 
 app.listen(port, () => {
