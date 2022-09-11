@@ -35,13 +35,40 @@ connection
 
 app.get('/', (req, res) => {
   Article.findAll({ order: ['id'] }).then(list => {
-    res.render('index', { listArticle: list })
+    Category.findAll().then(listCategory => {
+      res.render('index', { listArticle: list, listCategory: listCategory })
+    })
   })
 })
 
 app.post('/saveTester', (req, res) => {
   console.log(req.body)
   res.send('cadastrou')
+})
+
+app.get('/category/:slug', (req, res) => {
+  var slug = req.params.slug
+  Category.findOne({
+    where: {
+      slug: slug
+    },
+    include: [{ model: Article }]
+  })
+    .then(category => {
+      if (category != undefined) {
+        Category.findAll().then(categories => {
+          res.render('index', {
+            listArticle: category.articles,
+            listCategory: categories
+          })
+        })
+      } else {
+        res.redirect('/')
+      }
+    })
+    .catch(err => {
+      res.redirect('/')
+    })
 })
 
 app.get('/:slug', (req, res) => {
@@ -53,6 +80,12 @@ app.get('/:slug', (req, res) => {
   })
     .then(article => {
       if (article != undefined) {
+        Category.findAll().then(listCategory => {
+          res.render('article', {
+            article: article,
+            listCategory: listCategory
+          })
+        })
         res.render('article', { article: article })
       } else {
         res.redirect('/')
