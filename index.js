@@ -6,6 +6,7 @@ const categoriesRouters = require('./categories/routers')
 const articlesRouters = require('./articles/routers')
 const Article = require('./articles/Article')
 const Category = require('./categories/Category')
+const { default: slugify } = require('slugify')
 
 const port = 3000
 
@@ -86,13 +87,44 @@ app.get('/:slug', (req, res) => {
             listCategory: listCategory
           })
         })
-        res.render('article', { article: article })
       } else {
         res.redirect('/')
       }
     })
     .catch(err => {
       res.redirect('/')
+    })
+})
+
+app.get('/admin/articles/edit/:slug', (req, res) => {
+  var slug = req.params.slug
+  Article.findOne({
+    where: {
+      slug: slug
+    }
+  }).then(article => {
+    res.render('./admin/articles/edit', { article: article })
+  })
+})
+
+app.post('/editArticle', (req, res) => {
+  var title = req.body.title
+  var body = req.body.bodyArticle
+  var id = req.body.idArticle
+
+  Article.update(
+    {
+      title: title,
+      body: body,
+      slug: slugify(title)
+    },
+    { where: { id: id } }
+  )
+    .then(() => {
+      res.redirect('admin/articles')
+    })
+    .catch(err => {
+      console.log(err)
     })
 })
 
