@@ -35,8 +35,8 @@ connection
   })
 
 app.get('/', (req, res) => {
-  Article.findAll({ order: ['id'] }).then(list => {
-    Category.findAll().then(listCategory => {
+  Article.findAll({ order: ['id'], limit: 3 }).then(list => {
+    Category.findAll({}).then(listCategory => {
       res.render('index', { listArticle: list, listCategory: listCategory })
     })
   })
@@ -103,7 +103,12 @@ app.get('/admin/articles/edit/:slug', (req, res) => {
       slug: slug
     }
   }).then(article => {
-    res.render('./admin/articles/edit', { article: article })
+    Category.findAll().then(categories => {
+      res.render('./admin/articles/edit', {
+        article: article,
+        categories: categories
+      })
+    })
   })
 })
 
@@ -111,12 +116,14 @@ app.post('/editArticle', (req, res) => {
   var title = req.body.title
   var body = req.body.bodyArticle
   var id = req.body.idArticle
+  var categoryId = req.body.categorias
 
   Article.update(
     {
       title: title,
       body: body,
-      slug: slugify(title)
+      slug: slugify(title),
+      categoryId: categoryId
     },
     { where: { id: id } }
   )

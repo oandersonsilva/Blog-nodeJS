@@ -36,6 +36,44 @@ router.post('/article/save', (req, res) => {
     })
 })
 
+//paginação
+router.get('/article/page/:num', (req, res) => {
+  var page = req.params.num
+  var numOffset = 0
+  var QtddArticles = 2
+
+  if (isNaN(page) || page == 1) {
+    numOffset = 0
+  } else {
+    numOffset = parseInt(page) * QtddArticles
+  }
+  Article.findAndCountAll({
+    limit: QtddArticles,
+    offset: numOffset,
+    order: ['id']
+  }).then(articles => {
+    var next
+    if (numOffset + QtddArticles >= articles.count) {
+      next = false
+    } else {
+      next = true
+    }
+    var result = {
+      page: parseInt(page),
+      next: next,
+      articles: articles
+    }
+    console.log(articles)
+
+    Category.findAll().then(categories => {
+      res.render('admin/articles/page', {
+        result: result,
+        categories: categories
+      })
+    })
+  })
+})
+
 router.post('/articles/deleteArticle', (req, res) => {
   var id = req.body.id
   if (id != undefined) {

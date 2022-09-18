@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <%- include('./partials/header') %>
+  <%- include('../../partials/header') %>
   <body>
-    <%- include('./partials/homenavbar') %>
+    <%- include('../../partials/navbar') %>
 
     <div class="container">
       <hr />
@@ -13,7 +13,7 @@
         <a href="" class="btn btn-primary" role="button">Leia Mais</a>
       </div>
       <br />
-      <% listArticle.forEach(article =>{ %>
+      <% result.articles.rows.forEach(article =>{ %>
       <div class="card">
         <div class="card-header"><h2><%= article.title %></h2></div>
         <div class="card-body">
@@ -26,7 +26,17 @@
       <br />
       <div class="row">
         <div class="col col-12">
-          <a style="float: right" href="article/page/2">Next >>></a>
+          <% if(result.page >2){%>
+          <a style="float: left" href="/article/page/<%= result.page-1 %>"
+            ><<< Prev</a
+          >
+          <% }if(result.page == 2){ %>
+          <a style="float: left" href="/"><<< Prev</a>
+          <% } %> <% if(result.next){%>
+          <a style="float: right" href="/article/page/<%= result.page+1 %>"
+            >Next >>></a
+          >
+          <% } %>
         </div>
 
         <hr />
@@ -34,5 +44,5 @@
     </div>
   </body>
 
-  <%- include('./partials/footer') %>
+  <%- include('../../partials/footer') %>
 </html>

@@ -26,8 +26,19 @@
               class="form-control"
               placeholder="Escreva seu artigo..."
             >
-              <%= article.body %></textarea
-            >
+            <%= article.body %>
+            </textarea>
+            <select name="categorias" id="" class="form-control">
+              <!-- colocar categoria relativa ao artigo -->
+              <% categories.forEach(item =>{ %> <% if(item.id ==
+              article.categoryId){ %>
+              <option value="<%= item.title %>" selected>
+                <%= item.title %>
+              </option>
+              <% }else{ %>
+              <option value="<%= item.id %>"><%= item.title %></option>
+              <% } %> <% }) %>
+            </select>
 
             <br />
             <button class="btn btn-success">Cadastrar</button>
