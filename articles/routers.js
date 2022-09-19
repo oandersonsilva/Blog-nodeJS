@@ -45,7 +45,7 @@ router.get('/article/page/:num', (req, res) => {
   if (isNaN(page) || page == 1) {
     numOffset = 0
   } else {
-    numOffset = parseInt(page) * QtddArticles
+    numOffset = (parseInt(page)-1) * QtddArticles
   }
   Article.findAndCountAll({
     limit: QtddArticles,

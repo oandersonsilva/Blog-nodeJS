@@ -4,9 +4,11 @@ const bodyParser = require('body-parser')
 const connection = require('./database/connection')
 const categoriesRouters = require('./categories/routers')
 const articlesRouters = require('./articles/routers')
+const userRouters = require('./users/routers')
 const Article = require('./articles/Article')
 const Category = require('./categories/Category')
 const { default: slugify } = require('slugify')
+const User = require('./users/Users')
 
 const port = 3000
 
@@ -14,6 +16,7 @@ app.set('view engine', 'ejs')
 
 app.use('/', categoriesRouters)
 app.use('/', articlesRouters)
+app.use('/', userRouters)
 
 //Static archives
 

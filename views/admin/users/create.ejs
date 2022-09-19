@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <%- include('../../partials/header') %>
+  <body>
+    <%- include('../../partials/navbar') %>
+    <div class="container">
+      <hr />
+
+      <div class="card mt-5 form-control">
+        <div class="card-head">
+          <h2>New User</h2>
+        </div>
+        <div class="card-body">
+          <form action="/createUser" method="post">
+            <input
+              type="text"
+              name="username"
+              placeholder="Digite seu Username"
+              class="form-control"
+            />
+            <br />
+            <input
+              type="password"
+              placeholder="*******"
+              class="form-control"
+              name="password"
+            />
+            <br />
+            <button class="btn btn-success">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <%- include('../../partials/footer') %>
+</html>
