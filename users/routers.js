@@ -15,18 +15,28 @@ router.post('/createUser', (req, res) => {
   var username = req.body.username
   var password = req.body.password
 
-  var salt = bcrypt.genSaltSync(10)
-  var hash = bcrypt.hashSync(password, salt)
+  User.findOne({ where: { username: username } })
+    .then(repetido => {
+      if (repetido != undefined) {
+        res.redirect('/admin/users/create')
+      } else {
+        var salt = bcrypt.genSaltSync(10)
+        var hash = bcrypt.hashSync(password, salt)
 
-  User.create({
-    username: username,
-    password: hash
-  })
-    .then(() => {
-      res.redirect('/')
+        User.create({
+          username: username,
+          password: hash
+        })
+          .then(() => {
+            res.redirect('/')
+          })
+          .catch(err => {
+            res.redirect('/')
+          })
+      }
     })
     .catch(err => {
-      res.redirect('/')
+      console.log(err)
     })
 })
 
