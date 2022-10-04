@@ -3,8 +3,9 @@ const router = express.Router()
 const Category = require('../categories/Category')
 const Article = require('./Article')
 const slugify = require('slugify')
+const adminAuth = require('../middlewares/adminAuth')
 
-router.get('/admin/articles', (req, res) => {
+router.get('/admin/articles', adminAuth, (req, res) => {
   Article.findAll({
     include: [{ model: Category }]
   }).then(list => {
@@ -12,7 +13,7 @@ router.get('/admin/articles', (req, res) => {
   })
 })
 
-router.get('/admin/articles/new', (req, res) => {
+router.get('/admin/articles/new', adminAuth, (req, res) => {
   Category.findAll().then(lista => {
     res.render('admin/articles/new', { lista: lista })
   })
@@ -37,7 +38,7 @@ router.post('/article/save', (req, res) => {
 })
 
 //paginação
-router.get('/article/page/:num', (req, res) => {
+router.get('/article/page/:num', adminAuth, (req, res) => {
   var page = req.params.num
   var numOffset = 0
   var QtddArticles = 2
@@ -45,7 +46,7 @@ router.get('/article/page/:num', (req, res) => {
   if (isNaN(page) || page == 1) {
     numOffset = 0
   } else {
-    numOffset = (parseInt(page)-1) * QtddArticles
+    numOffset = (parseInt(page) - 1) * QtddArticles
   }
   Article.findAndCountAll({
     limit: QtddArticles,

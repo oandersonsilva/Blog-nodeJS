@@ -2,12 +2,17 @@ const express = require('express')
 const User = require('./Users')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
+const adminAuth = require('../middlewares/adminAuth')
 
 router.get('/admin/users', (req, res) => {
-  res.send('lista Usuários')
+  User.findAll().then(users => {
+    res.render('admin/users/index', {
+      users: users
+    })
+  })
 })
 
-router.get('/admin/users/create', (req, res) => {
+router.get('/admin/users/create', adminAuth, (req, res) => {
   res.render('admin/users/create')
 })
 
@@ -38,6 +43,44 @@ router.post('/createUser', (req, res) => {
     .catch(err => {
       console.log(err)
     })
+})
+
+router.get('/login', (req, res) => {
+  res.render('admin/users/login')
+})
+
+router.post('/authenticate', (req, res) => {
+  var username = req.body.username
+  var password = req.body.password
+
+  User.findOne({ where: { username: username } })
+    .then(user => {
+      if (user != undefined) {
+        var correct = bcrypt.compareSync(password, user.password)
+        if (correct) {
+          req.session.user = {
+            id: user.id,
+            email: user.email
+          }
+
+          res.json({
+            user: req.session.user
+          })
+        } else {
+          res.redirect('/login')
+        }
+      } else {
+        res.redirect('/login')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
+router.get('/logout', (req, res) => {
+  req.session.user = undefined
+  res.redirect('/')
 })
 
 module.exports = router

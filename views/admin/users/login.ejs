@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <%- include('../../partials/header') %>
+  <body>
+    <div class="container">
+      <hr />
+
+      <div class="card mt-5 form-control">
+        <div class="card-head">
+          <h2>Login</h2>
+        </div>
+        <div class="card-body">
+          <form action="/authenticate" method="post">
+            <input
+              type="text"
+              name="username"
+              placeholder="Digite seu Username"
+              class="form-control"
+            />
+            <br />
+            <input
+              type="password"
+              placeholder="*******"
+              class="form-control"
+              name="password"
+            />
+            <br />
+            <button class="btn btn-success">logar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <%- include('../../partials/footer') %>
+</html>

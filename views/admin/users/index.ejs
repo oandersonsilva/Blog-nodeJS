@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <%- include('../../partials/header') %>
+  <body>
+    <%- include('../../partials/navbar') %>
+    <div class="container">
+      <hr />
+      <h2>Categorias</h2>
+      <hr />
+      <a class="btn btn-success" href="/admin/users/create"
+        >Criar novo usuário
+      </a>
+      <br />
+      <br />
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>email</th>
+            <th>email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user =>{ %>
+
+          <tr>
+            <th><%= user.id %></th>
+            <th><%= user.username %></th>
+
+            <th>
+              <a class="btn btn-warning" href="/admin/users/edit/<%= user.id %>"
+                >Editar</a
+              >
+
+              <form
+                action="/users/deleteUser"
+                method="post"
+                style="display: inline"
+                onsubmit="deleteConfirm(event, this)"
+              >
+                <input type="hidden" name="id" value="<%= user.id %>" />
+                <button class="btn btn-danger">Excluir</button>
+              </form>
+            </th>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <%- include('../../partials/footer') %>
+  <script>
+    function deleteConfirm(event, form) {
+      //event.preventDefaut()
+      console.log('formulario')
+      var confirmation = confirm('Confirma Exclusão')
+      if (confirmation) {
+        console.log('yes')
+        form.submit
+      } else {
+        console.log('no')
+      }
+    }
+  </script>
+</html>

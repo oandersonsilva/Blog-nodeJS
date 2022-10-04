@@ -9,10 +9,19 @@ const Article = require('./articles/Article')
 const Category = require('./categories/Category')
 const { default: slugify } = require('slugify')
 const User = require('./users/Users')
+const session = require('express-session')
+const adminAuth = require('./middlewares/adminAuth')
 
 const port = 3000
 
 app.set('view engine', 'ejs')
+
+app.use(
+  session({
+    secret: 'asklasdlnqwnasinasdiiqwnd',
+    cookie: { maxAge: 30000 }
+  })
+)
 
 app.use('/', categoriesRouters)
 app.use('/', articlesRouters)
@@ -42,6 +51,21 @@ app.get('/', (req, res) => {
     Category.findAll({}).then(listCategory => {
       res.render('index', { listArticle: list, listCategory: listCategory })
     })
+  })
+})
+
+//session
+
+app.get('/sessao', (req, res) => {
+  req.session.nome = 'Anderson'
+  req.session.carinha = true
+  res.send('sessão gerada')
+})
+
+app.get('/leitura', (req, res) => {
+  res.json({
+    nome: req.session.nome,
+    casado: req.session.carinha
   })
 })
 
@@ -99,7 +123,7 @@ app.get('/:slug', (req, res) => {
     })
 })
 
-app.get('/admin/articles/edit/:slug', (req, res) => {
+app.get('/admin/articles/edit/:slug', adminAuth, (req, res) => {
   var slug = req.params.slug
   Article.findOne({
     where: {
