@@ -45,6 +45,7 @@ connection
   .catch(err => {
     console.log(err)
   })
+//pagina principal
 
 app.get('/', (req, res) => {
   Article.findAll({ order: ['id'], limit: 3 }).then(list => {
@@ -62,6 +63,7 @@ app.get('/sessao', (req, res) => {
   res.send('sessão gerada')
 })
 
+//testando Sessao
 app.get('/leitura', (req, res) => {
   res.json({
     nome: req.session.nome,
@@ -99,6 +101,8 @@ app.get('/category/:slug', (req, res) => {
     })
 })
 
+
+//Article Slug
 app.get('/:slug', (req, res) => {
   var slug = req.params.slug
   Article.findOne({
@@ -122,6 +126,8 @@ app.get('/:slug', (req, res) => {
       res.redirect('/')
     })
 })
+
+//editar artigo
 
 app.get('/admin/articles/edit/:slug', adminAuth, (req, res) => {
   var slug = req.params.slug
